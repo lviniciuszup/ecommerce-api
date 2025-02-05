@@ -1,36 +1,42 @@
 package com.zup.ecommerce.controller;
 
-import com.zup.ecommerce.model.Product;
-import com.zup.ecommerce.services.ProductService;
+import com.zup.ecommerce.model.Client;
+import com.zup.ecommerce.services.ClientService;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 
 @RestController
-public class ServiceController {
-    private final ProductService productService;
+public class ClientController{
+    private final ClientService clientService;
 
-    public ServiceController(ProductService productService){
-        this.productService = productService;
+    public ClientController(ClientService clientService){
+        this.clientService = clientService;
     }
-    @PostMapping("/client")
-    public ResponseEntity<Product> newProduct(@RequestBody Product product){
-        Product savedProduct = productService.saveProduct(product);
-        return ResponseEntity.status(201).body(savedProduct);
+
+    @PostMapping("/clients")
+    public ResponseEntity<Client> newClient(@RequestBody @Valid Client client){
+        Client createdClient = clientService.createClient(client);
+        return ResponseEntity.status(201).body(createdClient);
     }
-    @GetMapping("/products")
-    public List<Product> listProducts(){
-        return productService.listAllProducts();
-    }
-    @DeleteMapping("/products/{id}")
-    public ResponseEntity<Void> deleteProductbyId(@PathVariable Long id){
+
+    @GetMapping("clients/{cpf}")
+    public ResponseEntity<Client> listClientCpf(@PathVariable String cpf){
         try {
-            productService.deleteProduct(id);
-            return ResponseEntity.noContent().build();
-        } catch (IllegalArgumentException e){
+            Client client = clientService.listClientByCpf(cpf);
+            return ResponseEntity.status(200).body(client);
+        }catch (IllegalArgumentException e){
             return ResponseEntity.notFound().build();
+        }
+    }
+    @PutMapping("/clients/{id}")
+    public ResponseEntity<Client> updateClient(@PathVariable Long id, @RequestBody Client client) {
+        try {
+            Client updatedClient = clientService.updateClient(id, client);
+            return ResponseEntity.status(200).body(updatedClient);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(404).build();
         }
     }
 }
