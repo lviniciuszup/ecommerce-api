@@ -1,7 +1,7 @@
 package com.zup.ecommerce.repository;
 
-import com.zup.ecommerce.model.Product;
+import com.zup.ecommerce.model.Order;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface ProductRepository extends JpaRepository<Product, Long> {
+public interface OrderRepository extends JpaRepository<Order, Long> {
 }
