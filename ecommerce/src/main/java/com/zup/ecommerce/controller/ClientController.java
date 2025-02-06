@@ -21,7 +21,7 @@ public class ClientController{
     public ResponseEntity<Client> newClient(@RequestBody @Valid ClientDTO clientDTO){
         //Criamos um novo cliente a partir do parametro
         Client client = new Client(clientDTO.name(), clientDTO.cpf(), clientDTO.email());
-        //Chamamos o service com o metodo criar client
+        //Chamamos o service com o metodo criar client que vai salvar no banco de dados
         Client createdClient = clientService.createClient(client);
         return ResponseEntity.status(201).body(createdClient);
     }
