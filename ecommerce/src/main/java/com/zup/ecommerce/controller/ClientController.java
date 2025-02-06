@@ -1,5 +1,6 @@
 package com.zup.ecommerce.controller;
 
+import com.zup.ecommerce.dto.ClientDTO;
 import com.zup.ecommerce.model.Client;
 import com.zup.ecommerce.services.ClientService;
 import jakarta.validation.Valid;
@@ -16,7 +17,11 @@ public class ClientController{
     }
 
     @PostMapping("/clients")
-    public ResponseEntity<Client> newClient(@RequestBody @Valid Client client){
+    //Recebemos o clientDTO com as validações
+    public ResponseEntity<Client> newClient(@RequestBody @Valid ClientDTO clientDTO){
+        //Criamos um novo cliente a partir do parametro
+        Client client = new Client(clientDTO.name(), clientDTO.cpf(), clientDTO.email());
+        //Chamamos o service com o metodo criar client
         Client createdClient = clientService.createClient(client);
         return ResponseEntity.status(201).body(createdClient);
     }
@@ -24,16 +29,22 @@ public class ClientController{
     @GetMapping("clients/{cpf}")
     public ResponseEntity<Client> listClientCpf(@PathVariable String cpf){
         try {
+            //Chamamos o service com o metodo para listar os clientes pelo cpf
             Client client = clientService.listClientByCpf(cpf);
             return ResponseEntity.status(200).body(client);
         }catch (IllegalArgumentException e){
+            //Retorna not found se não achar
             return ResponseEntity.notFound().build();
         }
     }
     @PutMapping("/clients/{id}")
-    public ResponseEntity<Client> updateClient(@PathVariable Long id, @RequestBody Client client) {
+    public ResponseEntity<Client> updateClient(@PathVariable Long id, @RequestBody ClientDTO clientDTO) {
         try {
-            Client updatedClient = clientService.updateClient(id, client);
+            //Criamos o client que vai ser atualizado a partir do DTO
+            Client updatedClient = new Client(clientDTO.name(), clientDTO.cpf(), clientDTO.email());
+            //com o dados do dto chamamos o metodo que vai atualizar o client
+            updatedClient = clientService.updateClient(id, updatedClient);
+            // retorna status 200 com ok
             return ResponseEntity.status(200).body(updatedClient);
         } catch (IllegalArgumentException e) {
             return ResponseEntity.status(404).build();
