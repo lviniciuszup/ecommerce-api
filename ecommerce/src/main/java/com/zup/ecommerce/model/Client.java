@@ -8,24 +8,17 @@ import java.util.regex.Matcher;
 
 @Entity
 public class Client {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @NotBlank(message = "O nome não pode ser vázio")
     private String name;
     @Column(unique = true)
     private String cpf;
-    @Email(message = "Insira um email valido por favor!")
     @Column(unique = true)
     private String email;
 
 
     public String getName() {
         return name;
-    }
-
-    public Long getId(){
-        return id;
     }
 
     public void setName(String name) {
@@ -37,12 +30,6 @@ public class Client {
     }
 
     public void setCpf(String cpf) {
-        String regex = "\\d{3}\\.\\d{3}\\.\\d{3}-\\d{2}";
-        Pattern pattern = Pattern.compile(regex);
-        Matcher matcher = pattern.matcher(cpf);
-        if (!matcher.matches()){
-            throw new IllegalArgumentException("Cpf inválido!");
-        }
         this.cpf = cpf;
     }
 
@@ -54,11 +41,10 @@ public class Client {
         this.email = email;
     }
 
-    public Client(String name, String cpf, String email, Long id) {
+    public Client(String name, String cpf, String email) {
         this.name = name;
         this.cpf = cpf;
         this.email = email;
-        this.id = id;
     }
 
 }

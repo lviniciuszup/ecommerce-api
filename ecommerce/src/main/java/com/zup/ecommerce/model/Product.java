@@ -15,30 +15,18 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(unique = true, nullable = false)
-    @NotBlank(message = "O nome não pode ficar vázio!")
     private String name;
-    @Positive(message = "O preço deve ser maior que 0")
     private Double price;
-    @Min(value = 0, message = "A quantidade não pode ser negativa")
     private Integer quantity;
 
     public Product(){
 
     }
 
-    public Product(Long id, String name, Double price, Integer quantity) {
-        this.id = id;
+    public Product(String name, Double price, Integer quantity) {
         this.name = name;
         this.price = price;
         this.quantity = quantity;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public String getName() {

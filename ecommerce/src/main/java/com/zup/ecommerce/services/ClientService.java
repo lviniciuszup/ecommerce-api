@@ -17,6 +17,9 @@ public class ClientService {
     }
 
     public Client createClient(Client client){
+        if (!CpfValidator.isValid(client.getCpf())){
+            throw new IllegalArgumentException("Cpf é invalido");
+        }
         if (clientRepository.existsByCpf(client.getCpf())){
             throw new EntityExistsException ("Já existe um cliente com esse CPF!");
         }

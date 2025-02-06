@@ -1,5 +1,6 @@
 package com.zup.ecommerce.controller;
 
+import com.zup.ecommerce.dto.ProductDTO;
 import com.zup.ecommerce.model.Product;
 import com.zup.ecommerce.services.ProductService;
 import org.springframework.http.ResponseEntity;
@@ -16,7 +17,10 @@ public class ProductController {
         this.productService = productService;
     }
     @PostMapping("/products")
-    public ResponseEntity<Product> newProduct(@RequestBody Product product){
+    public ResponseEntity<Product> newProduct(@RequestBody ProductDTO productDTO){
+        //Criamos um novo produto a partir do parametro
+        Product product = new Product(productDTO.name(), productDTO.price(), productDTO.quantity());
+        // Chamamos o service com o metodo criar produto
         Product savedProduct = productService.saveProduct(product);
         return ResponseEntity.status(201).body(savedProduct);
     }
