@@ -10,7 +10,7 @@ public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @ManyToOne // Muitos objetos dessa entitdade para um unico cliente
+    @ManyToOne
     private Client client;
     @ManyToMany
     @JoinTable(

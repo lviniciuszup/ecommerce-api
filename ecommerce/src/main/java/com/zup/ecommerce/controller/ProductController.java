@@ -18,9 +18,7 @@ public class ProductController {
     }
     @PostMapping("/produtos")
     public ResponseEntity<Product> newProduct(@RequestBody ProductDTO productDTO){
-        //Criamos um novo produto a partir do parametro
         Product product = new Product(productDTO.name(), productDTO.price(), productDTO.quantity());
-        // Chamamos o service com o metodo criar produto
         Product savedProduct = productService.saveProduct(product);
         return ResponseEntity.status(201).body(savedProduct);
     }

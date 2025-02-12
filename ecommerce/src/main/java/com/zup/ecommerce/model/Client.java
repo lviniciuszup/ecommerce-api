@@ -1,10 +1,6 @@
 package com.zup.ecommerce.model;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import java.util.regex.Pattern;
-import java.util.regex.Matcher;
 
 @Entity
 public class Client {
