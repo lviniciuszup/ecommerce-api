@@ -16,7 +16,7 @@ public class ProductController {
     public ProductController(ProductService productService){
         this.productService = productService;
     }
-    @PostMapping("/products")
+    @PostMapping("/produtos")
     public ResponseEntity<Product> newProduct(@RequestBody ProductDTO productDTO){
         //Criamos um novo produto a partir do parametro
         Product product = new Product(productDTO.name(), productDTO.price(), productDTO.quantity());
@@ -24,11 +24,11 @@ public class ProductController {
         Product savedProduct = productService.saveProduct(product);
         return ResponseEntity.status(201).body(savedProduct);
     }
-    @GetMapping("/products")
+    @GetMapping("/produtos")
     public List<Product> listProducts(){
         return productService.listAllProducts();
     }
-    @DeleteMapping("/products/{id}")
+    @DeleteMapping("/produtos/{id}")
     public ResponseEntity<Void> deleteProductbyId(@PathVariable Long id){
         try {
             productService.deleteProduct(id);

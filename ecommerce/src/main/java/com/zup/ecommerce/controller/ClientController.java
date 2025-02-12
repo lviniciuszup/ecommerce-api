@@ -16,7 +16,7 @@ public class ClientController{
         this.clientService = clientService;
     }
 
-    @PostMapping("/clients")
+    @PostMapping("/clientes")
     //Recebemos o clientDTO com as validações
     public ResponseEntity<Client> newClient(@RequestBody @Valid ClientDTO clientDTO){
         //Criamos um novo cliente a partir do parametro
@@ -26,7 +26,7 @@ public class ClientController{
         return ResponseEntity.status(201).body(createdClient);
     }
 
-    @GetMapping("clients/{cpf}")
+    @GetMapping("clientes/{cpf}")
     public ResponseEntity<Client> listClientCpf(@PathVariable String cpf){
         try {
             //Chamamos o service com o metodo para listar os clientes pelo cpf
@@ -37,7 +37,7 @@ public class ClientController{
             return ResponseEntity.notFound().build();
         }
     }
-    @PutMapping("/clients/{id}")
+    @PutMapping("/clientes/{id}")
     public ResponseEntity<Client> updateClient(@PathVariable Long id, @RequestBody ClientDTO clientDTO) {
         try {
             //Criamos o client que vai ser atualizado a partir do DTO
