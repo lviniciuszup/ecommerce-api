@@ -12,6 +12,18 @@ public class Client {
     @Column(unique = true)
     private String email;
 
+    public Client() {
+    }
+
+    public Client(String name, String cpf, String email) {
+        this.name = name;
+        this.cpf = cpf;
+        this.email = email;
+    }
+
+    public Long getId() {
+        return id;
+    }
 
     public String getName() {
         return name;
@@ -37,10 +49,6 @@ public class Client {
         this.email = email;
     }
 
-    public Client(String name, String cpf, String email) {
-        this.name = name;
-        this.cpf = cpf;
-        this.email = email;
-    }
+
 
 }
