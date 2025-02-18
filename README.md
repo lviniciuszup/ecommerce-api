@@ -10,16 +10,19 @@ Cadastro, listagem e exclusão de produtos.
 Cadastro, consulta e atualização de clientes.
 
 ⚙️ Como Rodar o Projeto
+
 Clone o repositório:
 git clone git@github.com:lviniciuszup/ecommerce-api.git.
 
 Inicie a aplicação:
+
 mvn spring-boot:run
 A API estará disponível em: http://localhost:8080
 
 📌 Endpoints Disponíveis
 
 📦 Produtos
+
 1. Listar Produtos
 Método: GET
 URL: /produtos
@@ -40,6 +43,7 @@ Exemplo de Resposta:
     "quantity": 5
   }
 ]
+
 2. Cadastrar Produto
 Método: POST
 URL: /produtos
@@ -61,6 +65,7 @@ Exemplo de Resposta:
   "price": 100.50,
   "quantity": 10
 }
+
 3. Deletar Produto
 Método: DELETE
 URL: /produtos/{id}
@@ -69,6 +74,7 @@ Exemplo de Resposta:
 Status: 204 No Content
 
 🧑 Clientes
+
 1. Cadastrar Cliente
 Método: POST
 URL: /clientes
@@ -88,6 +94,7 @@ Exemplo de Resposta:
   "cpf": "12345678900",
   "email": "joao.silva@example.com"
 }
+
 2. Consultar Cliente pelo CPF
 Método: GET
 URL: /clientes/{cpf}
@@ -100,6 +107,7 @@ Exemplo de Resposta:
   "cpf": "12345678900",
   "email": "joao.silva@example.com"
 }
+
 3. Atualizar Cliente
 Método: PUT
 URL: /clientes/{cpf}
@@ -118,15 +126,18 @@ Exemplo de Resposta:
   "cpf": "12345678900",
   "email": "joao.silva@novoemail.com"
 }
+
 📜 Regras de Negócio
 Produtos:
 
 Não é permitido cadastrar produtos com o mesmo nome.
 O preço do produto deve ser maior que 0.
 A quantidade do produto deve ser maior ou igual a 0.
+
 Clientes:
 
 Clientes devem possuir um CPF e e-mail únicos e válidos.
+
 🛠️ Tecnologias Utilizadas
 Java 17
 Spring Boot
