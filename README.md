@@ -98,7 +98,7 @@ A API foi desenvolvida para gerenciar produtos e clientes de um sistema de e-com
 
 #### 🔄 Atualizar Cliente
 - **Método:** `PUT`
-- **URL:** `/clientes/{cpf}`
+- **URL:** `/clientes/{id}`
 - **Descrição:** Atualiza os dados de um cliente.
 - **Exemplo de Requisição:**
   ```json
