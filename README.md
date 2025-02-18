@@ -41,7 +41,7 @@ A API foi desenvolvida para gerenciar produtos e clientes de um sistema de e-com
 
 #### 📜 Listar Produtos
 - **Método:** `GET`
-- **URL:** `/produtos`
+- **URL:** `api/produtos`
 - **Descrição:** Retorna a lista de produtos cadastrados.
 - **Exemplo de Resposta:**
   ```json
