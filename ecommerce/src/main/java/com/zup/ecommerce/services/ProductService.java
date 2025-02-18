@@ -1,11 +1,16 @@
 package com.zup.ecommerce.services;
 
+
+import com.zup.ecommerce.dto.ProductRequestDTO;
+import com.zup.ecommerce.dto.ProductResponseDTO;
+import com.zup.ecommerce.exceptions.DuplicateException;
+import com.zup.ecommerce.exceptions.NotFoundException;
 import com.zup.ecommerce.model.Product;
 import com.zup.ecommerce.repository.ProductRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -16,22 +21,34 @@ public class ProductService {
         this.productRepository = productRepository;
     }
 
-    public Product saveProduct(Product product){
-       if (productRepository.existsByName(product.getName())){
-           throw new IllegalArgumentException("Já existe um produto com esse nome.");
+    public ProductResponseDTO createProduct(ProductRequestDTO productRequestDTO){
+       if (productRepository.existsByName(productRequestDTO.getName())){
+           throw new DuplicateException("Já existe um produto com o nome: " + productRequestDTO.getName()) {
+           };
        }
-        return productRepository.save(product);
+        Product product = new Product(productRequestDTO.getName(), productRequestDTO.getPrice(), productRequestDTO.getQuantity());
+        Product savedProduct = productRepository.save(product);
+
+        return new ProductResponseDTO(
+                savedProduct.getId(),
+                savedProduct.getName(),
+                savedProduct.getPrice(),
+                savedProduct.getQuantity()
+        );
     }
-    public List<Product> listAllProducts(){
-        return productRepository.findAll();
+    public List<ProductResponseDTO> listAllProducts(){
+        return productRepository.findAll().stream()
+                .map(product -> new ProductResponseDTO(
+                        product.getId(),
+                        product.getName(),
+                        product.getPrice(),
+                        product.getQuantity()
+                )).collect(Collectors.toList());
     }
 
     public void deleteProduct(Long id){
-        Optional<Product> existingProduct = productRepository.findById(id);
-        if(existingProduct.isEmpty()){
-            throw new IllegalArgumentException("O produto não existe");
-        }
+        Product existingProduct = productRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Não existe um produto com esse id"));
         productRepository.deleteById(id);
-
     }
 }

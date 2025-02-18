@@ -1,28 +1,26 @@
 package com.zup.ecommerce.dto;
 
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
-import jakarta.persistence.Entity;
 
-
-@Entity
-public class ProductResponseDTO {
-
-    private Long id;
+public class ProductRequestDTO {
+    @NotBlank(message = "O nome do produto não pode ser vázio.")
     private String name;
+    @NotNull(message = "O preço não pode ser nulo")
+    @Min(value = 0, message= "O preço deve ser maior que 0" )
     private Double price;
+    @NotNull(message = "O preço não pode ser nulo")
+    @Min(value = 0, message= "A quantidade em estoque deve ser maior que 0" )
     private Integer quantity;
 
 
-    public ProductResponseDTO(Long id, String name, Double price, Integer quantity) {
-        this.id = id;
+    public ProductRequestDTO(Long id, String name, Double price, Integer quantity) {
         this.name = name;
         this.price = price;
         this.quantity = quantity;
     }
-
-    public Long getId() {return id; }
-
-    public void setId(Long id) {this.id = id;}
 
     public String getName() {
         return name;

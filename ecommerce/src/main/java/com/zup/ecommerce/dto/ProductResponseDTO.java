@@ -1,13 +1,46 @@
 package com.zup.ecommerce.dto;
 
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Positive;
 
-public record ProductDTO(
-    @NotBlank(message = "O nome não pode ser vázio") String name,
-    @Positive(message = "O preço deve ser maior que 0")  Double price,
-    @Min(value = 0, message = "A quantidade não pode ser negativa") Integer quantity
-) {
+public class ProductResponseDTO {
+
+    private Long id;
+    private String name;
+    private Double price;
+    private Integer quantity;
+
+
+    public ProductResponseDTO(Long id, String name, Double price, Integer quantity) {
+        this.id = id;
+        this.name = name;
+        this.price = price;
+        this.quantity = quantity;
+    }
+
+    public Long getId() {return id; }
+
+    public void setId(Long id) {this.id = id;}
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Double getPrice() {
+        return price;
+    }
+
+    public void setPrice(Double price) {
+        this.price = price;
+    }
+
+    public Integer getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(Integer quantity) {
+        this.quantity = quantity;
+    }
 }
