@@ -4,21 +4,22 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 
-public class ClientRequestDTO {
-    @NotBlank(message = "O nome não pode ser vazio.")
+public class ClientResponseDTO {
+    private Long id;
     private String name;
-    @NotBlank(message = "O CPF não pode ser vazio")
-    @Pattern(regexp = "\\d{11}", message = "O CPF informado é inválido.")
     private String cpf;
-    @Email(message = "O e-mail não pode ser inválido")
-    @NotBlank(message = "O e-mail não pode ser vázio")
     private String email;
 
-    public ClientRequestDTO(String email, String cpf, String name) {
-        this.email = email;
-        this.cpf = cpf;
+    public ClientResponseDTO(Long id, String name, String cpf, String email ) {
+        this.id = id;
         this.name = name;
+        this.cpf = cpf;
+        this.email = email;
     }
+
+    public Long getId() {return id; }
+
+    public void setId(Long id) {this.id = id;}
 
     public String getName() {
         return name;
