@@ -1,12 +1,14 @@
 package com.zup.ecommerce.services;
 
+import com.zup.ecommerce.dto.ClientRequestDTO;
+import com.zup.ecommerce.dto.ClientResponseDTO;
+import com.zup.ecommerce.exceptions.DuplicateException;
+import com.zup.ecommerce.exceptions.InvalidException;
+import com.zup.ecommerce.exceptions.NotFoundException;
 import com.zup.ecommerce.model.Client;
 import com.zup.ecommerce.repository.ClientRepository;
-import jakarta.persistence.EntityExistsException;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
-import java.util.Optional;
 
 @Service
 public class ClientService {
@@ -16,35 +18,49 @@ public class ClientService {
         this.clientRepository = clientRepository;
     }
 
-    public Client createClient(Client client){
-        if (!CpfValidator.isValid(client.getCpf())){
-            throw new IllegalArgumentException("Cpf é invalido");
+    public ClientResponseDTO createClient(ClientRequestDTO clientRequestDTO){
+        String cpfNoMask = clientRequestDTO.getCpf().replaceAll("\\D", "");
+        if (clientRepository.existsByCpf(cpfNoMask)){
+            throw new DuplicateException("Já existe um cliente com o CPF: "+ cpfNoMask) {
+            };
         }
-        if (clientRepository.existsByCpf(client.getCpf())){
-            throw new EntityExistsException ("Já existe um cliente com esse CPF!");
-        }
-        return clientRepository.save(client);
+        Client client = new Client(clientRequestDTO.getName(), cpfNoMask, clientRequestDTO.getEmail());
+        Client savedCLient = clientRepository.save(client);
+
+        return new ClientResponseDTO(
+                savedCLient.getId(),
+                savedCLient.getName(),
+                savedCLient.getCpf(),
+                savedCLient.getEmail()
+        );
     }
 
-    public Client listClientByCpf(String cpf){
-        Optional <Client> existingClient = clientRepository.findByCpf(cpf);
-        if (existingClient.isEmpty()){
-            throw new IllegalArgumentException("Esse cliente não existe");
-        }
-        return existingClient.get();
+    public ClientResponseDTO listClientByCpf(String cpf){
+        String cpfNoMask = cpf.replaceAll("\\D", "");
+        Client existingClientByCpf = clientRepository.findByCpf(cpfNoMask).orElseThrow(()-> new NotFoundException("O cpf " + cpfNoMask + " não foi encontrado.")
+        );
+
+        return new ClientResponseDTO(
+                existingClientByCpf.getId(),
+                existingClientByCpf.getName(),
+                existingClientByCpf.getCpf(),
+                existingClientByCpf.getEmail());
     }
 
-    public Client updateClient(Long id, Client client){
-        Optional <Client> existingClientById = clientRepository.findById(id);
-        if (existingClientById.isEmpty()){
-            throw new IllegalArgumentException("Esse cliente não existe");
-        }
-        Client existingClient = existingClientById.get();
-        existingClient.setName(client.getName());
-        existingClient.setEmail(client.getEmail());
-        existingClient.setCpf(client.getCpf());
+    public ClientResponseDTO updateClient(Long id, ClientRequestDTO clientRequestDTO){
+        Client existingClientById = clientRepository.findById(id)
+        .orElseThrow(() -> new NotFoundException("O cliente com este o id não existe"));
+        existingClientById.setName(clientRequestDTO.getName());
+        existingClientById.setEmail(clientRequestDTO.getEmail());
 
-        return clientRepository.save(existingClient);
+        Client savedCLient = clientRepository.save(existingClientById);
+
+        return new ClientResponseDTO(
+                savedCLient.getId(),
+                savedCLient.getEmail(),
+                savedCLient.getName(),
+                savedCLient.getCpf()
+        );
     }
 
 }
