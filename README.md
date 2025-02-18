@@ -1,7 +1,9 @@
 E-commerce API
+
 Este projeto é um sistema de e-commerce que permite o cadastro de produtos e clientes, além de realizar operações básicas como consulta, atualização e exclusão.
 
 📌 Descrição
+
 A API foi desenvolvida para gerenciar produtos e clientes de um sistema de e-commerce. Ela permite:
 
 Cadastro, listagem e exclusão de produtos.
